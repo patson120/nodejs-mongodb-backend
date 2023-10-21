@@ -12,9 +12,9 @@ const postSchema = new mongoose.Schema({
         required: true,
         maxLength: 2000
     },
-    author: { type: mongoose.Types.ObjectId, ref: 'user' },
+    author: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
 },
     { timestamps: true })
 
-module.exports = mongoose.model("post", postSchema)
+module.exports = mongoose.model("Post", postSchema)
 

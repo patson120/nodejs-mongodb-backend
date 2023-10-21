@@ -4,14 +4,12 @@ const jwtUtils = require("../utils/jwt.utils");
 
 module.exports = {
     addPost: async (req, res) => {
-
-        const newPost = await models.Post({
-            ...req.body,
-            author: jwtUtils.getUserId(jwtUtils.getUserToken(req)),
-        });
         try {
-            const post = await newPost.save();
-            return res.status(201).json({ newPost: post });
+            const newPost = await models.Post.create({
+                ...req.body,
+                author: jwtUtils.getUserId(jwtUtils.getUserToken(req)),
+            });
+            return res.status(201).json({ newPost });
         } catch (error) {
             return res.status(400).json({ error: error });
         }
@@ -29,7 +27,7 @@ module.exports = {
 
     updatePost: async (req, res, next) => {
         // Update the post
-        let post = await models.Post.updateOne({ _id: req.params.id }, { $set: req.body });
+        await models.Post.updateOne({ _id: req.params.id }, { $set: req.body });
         return res.status(201).json({ message: "Post updated successfully" });
     },
 

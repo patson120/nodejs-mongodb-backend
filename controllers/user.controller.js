@@ -16,12 +16,11 @@ module.exports = {
         if (!userFound) {
 
             bcrypt.hash(password, 5, async (err, bcryptedPassword) => {
-                userFound = await models.User({
-                    ...req.body,
-                    password: bcryptedPassword
-                })
                 try {
-                    const user = await userFound.save();
+                    const user = await models.User.create({
+                        ...req.body,
+                        password: bcryptedPassword
+                    });
                     return res.status(201).json({ user: user });
                 } catch (error) {
                     return res.status(400).json({ error: "Sorry. Something went wrong " + error });
